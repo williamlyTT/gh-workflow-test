@@ -10,12 +10,25 @@ on:
         default: false
 
 jobs:
+  matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - id: set-matrix
+        run: |
+          if [ "${{ github.event.inputs.dev }}" = "true" ]; then
+            echo "matrix={\"environment\":[\"env1\"]}" >> $GITHUB_OUTPUT
+          else
+            echo "matrix={\"environment\":[\"env1\",\"env2\"]}" >> $GITHUB_OUTPUT
+          fi
+
   build:
+    needs: matrix
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix:
-        environment: ${{ github.event.inputs.dev == 'true' && fromJSON('["env1"]') || fromJSON('["env1", "env2"]') }}
+      matrix: ${{ fromJSON(needs.matrix.outputs.matrix) }}
     
     steps:
     - uses: actions/checkout@v4
