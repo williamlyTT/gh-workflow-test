@@ -2,14 +2,9 @@ name: Main Workflow
 
 on:
   workflow_dispatch:
-    inputs:
-      dev:
-        description: 'Run in development mode'
-        required: true
-        type: boolean
-        default: false
   schedule:
-    - cron: '19,20 * * * *'
+    - cron: '*/2 * * * *'
+    - cron: '*/3 * * * *'
 
 jobs:
   matrix:
@@ -19,10 +14,10 @@ jobs:
     steps:
       - id: set-matrix
         run: |
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ] || [ "${{ github.event.schedule }}" = "19 * * * *" ]; then
-            echo "matrix={\"environment\":[\"env1\"]}" >> $GITHUB_OUTPUT
-          else
+          if [ "${{ github.event.schedule }}" = "*/2 * * * *" ]; then
             echo "matrix={\"environment\":[\"env1\",\"env2\"]}" >> $GITHUB_OUTPUT
+          else
+            echo "matrix={\"environment\":[\"env1\"]}" >> $GITHUB_OUTPUT
           fi
 
   build:
@@ -37,4 +32,4 @@ jobs:
     
     - name: Run a one-line script
       run: |
-        echo "Hello, GitHub Actions! Dev mode: ${{ github.event.inputs.dev }} in environment: ${{ matrix.environment }}" 
+        echo "Hello, GitHub Actions! Running in environment: ${{ matrix.environment }}" 
