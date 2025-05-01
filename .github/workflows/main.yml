@@ -21,4 +21,5 @@ jobs:
     - uses: actions/checkout@v4
     
     - name: Run a one-line script
-      run: echo "Hello, GitHub Actions! Dev mode: ${{ github.event.inputs.dev }} in environment: ${{ matrix.environment }}" 
+      run: |
+        echo "Hello, GitHub Actions! Dev mode: ${{ github.event.inputs.dev }} in environment: ${{ matrix.environment }}" 
