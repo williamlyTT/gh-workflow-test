@@ -9,7 +9,7 @@ on:
         type: boolean
         default: false
   schedule:
-    - cron: '25,30 * * * *'
+    - cron: '19,20 * * * *'
 
 jobs:
   matrix:
@@ -19,7 +19,7 @@ jobs:
     steps:
       - id: set-matrix
         run: |
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ] || [ "${{ github.event.schedule }}" = "25 * * * *" ]; then
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] || [ "${{ github.event.schedule }}" = "19 * * * *" ]; then
             echo "matrix={\"environment\":[\"env1\"]}" >> $GITHUB_OUTPUT
           else
             echo "matrix={\"environment\":[\"env1\",\"env2\"]}" >> $GITHUB_OUTPUT
