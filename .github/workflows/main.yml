@@ -1,0 +1,24 @@
+name: Main Workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      dev:
+        description: 'Run in development mode'
+        required: true
+        type: boolean
+        default: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        environment: [env1, env2]
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Run a one-line script
+      run: echo "Hello, GitHub Actions! Dev mode: ${{ github.event.inputs.dev }} in environment: ${{ matrix.environment }}" 
